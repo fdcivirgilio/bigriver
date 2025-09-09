@@ -5,7 +5,8 @@
     android:background="@color/white"
     android:padding="12dp"
     android:layout_margin="6dp"
-    android:elevation="2dp">
+    android:elevation="2dp"
+    android:id="@+id/ll_item_post">
 
     <!-- Header: Profile picture + Username + Time -->
     <LinearLayout

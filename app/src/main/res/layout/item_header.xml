@@ -9,6 +9,7 @@
 
     <!-- Header: Profile + Input -->
     <LinearLayout
+        android:id="@+id/ll_create_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -56,5 +57,12 @@
         android:textAllCaps="false"
         android:backgroundTint="@color/black"
         android:textColor="@color/white" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:visibility="gone"
+        android:id="@+id/cancelPost" />
 
 </LinearLayout>

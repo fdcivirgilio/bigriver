@@ -57,9 +57,12 @@ class PostsFragment : Fragment() {
             val postId = clickedPost.id
             showCustomDialogPostSingle(clickedPost.content, clickedPost.date.toString(), name, postId)
         }
-        val headerAdapter = HeaderAdapter { message ->
-            postViewModel.addPost(message, 0, 0) // add new post
-        }
+        val headerAdapter = HeaderAdapter(
+            this,
+            onPostClick = { message ->
+                postViewModel.addPost(message, 0, 0) // add new post
+            }
+        )
 
         val concatAdapter = ConcatAdapter(headerAdapter, adapter)
 
