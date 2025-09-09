@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,14 +13,13 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.bigriver.R
-import com.example.bigriver.databinding.FragmentHomeBinding
 import com.example.bigriver.databinding.FragmentPostsBinding
 import com.example.bigriver.ui.home.HeaderAdapter
 import com.example.bigriver.ui.viewmodel.PostViewModel
 import kotlin.getValue
 import androidx.recyclerview.widget.ConcatAdapter
+import com.example.bigriver.ui.viewmodel.UserViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,6 +35,7 @@ class PostsFragment : Fragment() {
 
     private lateinit var adapter: PostAdapter
     private val postViewModel: PostViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
     private var _binding: FragmentPostsBinding? = null
     private val binding get() = _binding!!
 
@@ -57,11 +56,14 @@ class PostsFragment : Fragment() {
             val postId = clickedPost.id
             showCustomDialogPostSingle(clickedPost.content, clickedPost.date.toString(), name, postId)
         }
+
+        val currentUser = userViewModel.currentUser
         val headerAdapter = HeaderAdapter(
             this,
             onPostClick = { message ->
                 postViewModel.addPost(message, 0, 0) // add new post
-            }
+            },
+            user = currentUser
         )
 
         val concatAdapter = ConcatAdapter(headerAdapter, adapter)

@@ -8,16 +8,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
-import android.widget.LinearLayout
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bigriver.R
 import androidx.fragment.app.Fragment
-import androidx.transition.Visibility
+import androidx.lifecycle.LiveData
+import com.example.bigriver.data.entity.User
 
 class HeaderAdapter(
     private val fragment: Fragment,
     private val onPostClick: (String) -> Unit,
+    private val user: LiveData<User?>
 ) :
     RecyclerView.Adapter<HeaderAdapter.HeaderViewHolder>() {
 
@@ -33,6 +35,10 @@ class HeaderAdapter(
     }
 
     override fun onBindViewHolder(holder: HeaderViewHolder, position: Int) {
+
+        val userImageURL = user.value?.userImageURL
+        Log.d("HeaderAdapter", "user image: $userImageURL")
+
         holder.btnPostNow.setOnClickListener {
             val message = holder.etMessage.text.toString().trim()
             if (message.isNotEmpty()) {
@@ -73,7 +79,7 @@ class HeaderAdapter(
                         holder.etMessage.clearFocus()
 
                     }
-
+                    val ivProfile = itemPostView.findViewById<ImageView>(R.id.ivProfile)
                     var message: String = ""
                     val btnSend = container.findViewById<Button>(R.id.btn_post_now)
                     btnSend?.setOnClickListener {
