@@ -59,10 +59,13 @@
         android:textColor="@color/white" />
 
     <Button
+        android:id="@+id/cancelPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/cancel"
-        android:visibility="gone"
-        android:id="@+id/cancelPost" />
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:textColor="@android:color/black"
+        android:visibility="gone"/>
 
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.example.bigriver.ui.home
 
+import android.graphics.Paint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -64,6 +65,7 @@ class HeaderAdapter(
 
                     val btnCancel = itemPostView.findViewById<Button>(R.id.cancelPost)
                     btnCancel?.visibility = View.VISIBLE
+                    btnCancel.paintFlags = btnCancel.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                     btnCancel?.setOnClickListener { button ->
                         recyclerView?.visibility = View.VISIBLE
                         button.visibility = View.GONE
