@@ -20,7 +20,7 @@ interface UserDao {
         @Query("UPDATE user_table SET userImageURL = :path WHERE id = :userId")
         suspend fun updateUserImage(userId: Int, path: String)
 
-        @Query("UPDATE user_table SET userImageURL = :path WHERE id = :userId")
+        @Query("UPDATE user_table SET userToken = :path WHERE id = :userId")
         suspend fun updateUserToken(userId: Int, path: String)
 
         // Get all users
@@ -30,6 +30,10 @@ interface UserDao {
         // Get current user
         @Query("SELECT * FROM user_table WHERE id = :userId LIMIT 1")
         suspend fun getCurrent(userId: Int): User?
+
+        // Get user by email and password
+        @Query("SELECT * FROM user_table WHERE emailAddress = :emailAddress and password = :password LIMIT 1")
+        suspend fun getUserByCredentials(emailAddress: String, password: String): User?
 
         // Get current user by token
         @Query("SELECT * FROM user_table WHERE id = :userToken LIMIT 1")

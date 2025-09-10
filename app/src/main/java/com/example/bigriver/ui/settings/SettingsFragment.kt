@@ -1,5 +1,6 @@
 package com.example.bigriver.ui.settings
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -13,11 +14,18 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.example.bigriver.MainActivity
 import com.example.bigriver.R
+import com.example.bigriver.activities.RegisterActivity
+import com.example.bigriver.databinding.FragmentSettingsBinding
+import com.example.bigriver.databinding.FragmentUsersBinding
 import com.example.bigriver.ui.viewmodel.UserViewModel
 import java.io.File
 import java.io.FileOutputStream
+import kotlin.getValue
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,6 +43,7 @@ class SettingsFragment : Fragment() {
     private var param2: String? = null
     private val PICK_IMAGE_REQUEST = 100
     private lateinit var pickImageLauncher: ActivityResultLauncher<String>
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +67,10 @@ class SettingsFragment : Fragment() {
                 btnSaveSelectedImage?.setOnClickListener { button ->
                     // Save it to internal storage
                     val savedPath = saveImageToInternalStorage(uri)
-                    val userId = 1
+                    var userId = 0
+                    userViewModel.currentUser.observe(viewLifecycleOwner) { user ->
+                        userId = user?.id ?: 0
+                    }
                     val userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
                     userViewModel.updateUserImage(userId, savedPath.toString())
                     Toast.makeText(requireContext(), "Image saved at: $savedPath", Toast.LENGTH_LONG).show()
@@ -88,6 +100,23 @@ class SettingsFragment : Fragment() {
 
         // Return the inflated layout
         return rootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Logout button
+        view.findViewById<Button>(R.id.btnLogout).setOnClickListener {
+            val prefs = requireContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+            val editor = prefs.edit()
+
+            if (prefs.contains("user_token")) {
+                editor.remove("user_token")
+                editor.apply() // or editor.commit()
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 
     private fun saveImageToInternalStorage(uri: Uri): String? {

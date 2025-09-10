@@ -26,4 +26,8 @@ class UserRepository(private val userDao: UserDao) {
     suspend fun deleteAllUsers() {
         userDao.deleteAll()
     }
+
+    suspend fun getUserByCredentials(emailAddress: String, password: String): User? {
+        return userDao.getUserByCredentials(emailAddress, password)
+    }
 }

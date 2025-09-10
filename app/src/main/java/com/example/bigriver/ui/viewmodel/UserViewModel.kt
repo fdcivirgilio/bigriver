@@ -98,4 +98,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             _users.postValue(data)
         }
     }
+
+    fun getUserByCredentials(emailAddress: String, password: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            val data = repository.getUserByCredentials(emailAddress, password)
+            _currentUser.postValue(data)
+        }
+    }
 }
