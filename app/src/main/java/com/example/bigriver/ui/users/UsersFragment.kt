@@ -1,6 +1,7 @@
 package com.example.bigriver.ui.users
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bigriver.R
 import com.example.bigriver.databinding.FragmentPostsBinding
+import com.example.bigriver.databinding.FragmentUsersBinding
 import com.example.bigriver.ui.viewmodel.PostViewModel
 import com.example.bigriver.ui.viewmodel.UserViewModel
 import kotlin.getValue
@@ -28,10 +30,9 @@ class UsersFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var adapter: UserAdapter
-    private val postViewModel: PostViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
-    private var _binding: FragmentPostsBinding? = null
-    private val binding get() = _binding!!
+    private var _binding: FragmentUsersBinding? = null
+    private val binding get() = _binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +47,8 @@ class UsersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_users, container, false)
+        _binding = FragmentUsersBinding.inflate(inflater, container, false)
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,14 +62,16 @@ class UsersFragment : Fragment() {
 
 
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
+        binding?.recyclerViewUsers?.layoutManager = LinearLayoutManager(requireContext())
+        binding?.recyclerViewUsers?.adapter = adapter
 
         userViewModel.loadUsers()
 
         userViewModel.users.observe(viewLifecycleOwner) { users ->
             adapter.setData(users)
         }
+
+
     }
 
 

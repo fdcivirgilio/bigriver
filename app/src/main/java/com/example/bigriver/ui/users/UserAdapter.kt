@@ -5,11 +5,11 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bigriver.R
-import com.example.bigriver.data.entity.Post
 import com.example.bigriver.data.entity.User
 
 
@@ -22,7 +22,8 @@ class UserAdapter(
 
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvUsername: TextView = itemView.findViewById(R.id.tvUsername)
-        val ivProfile: TextView = itemView.findViewById(R.id.ivProfile)
+        val ivProfile: ImageView = itemView.findViewById(R.id.ivProfile)
+        val tvTime: TextView = itemView.findViewById(R.id.tvTime)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -36,8 +37,8 @@ class UserAdapter(
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = users[position]
         holder.tvUsername.text = user.name
-        holder.ivProfile.text = user.userImageURL.toString()
-
+//        holder.ivProfile.text = user.userImageURL.toString()
+        holder.tvTime.text = user.userImageURL
         holder.itemView.setOnClickListener {
             onItemClick(user)
         }

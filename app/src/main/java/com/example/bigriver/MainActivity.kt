@@ -1,6 +1,7 @@
 package com.example.bigriver
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -19,6 +20,7 @@ import com.example.bigriver.databinding.ActivityMainBinding
 import kotlin.text.contains
 import androidx.core.content.edit
 import androidx.fragment.app.viewModels
+import com.example.bigriver.activities.RegisterActivity
 import com.example.bigriver.data.entity.User
 import com.example.bigriver.ui.viewmodel.PostViewModel
 import com.example.bigriver.ui.viewmodel.UserViewModel
@@ -56,33 +58,36 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        val prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+//        val prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+//
+//        if (prefs.contains("user_token")) {
+//            // Preference exists
+//            val value = prefs.getString("user_token", null)
+//            Log.d("HomeFragment", "user_token: $value")
+//            userViewModel.updateUserToken(
+//                userId = 1,
+//                path = value.toString()
+//            )
+//            userViewModel.loadUserByTokenId(value.toString())
+//        } else {
+//            // Preference does not exist
+//            Log.d("HomeFragment", "Preference not found")
+//
+//            val newToken = java.util.UUID.randomUUID().toString()
+//            prefs.edit() {
+//                putString("user_token", newToken)
+//            } // saves asynchronously
+//
+//            userViewModel.updateUserToken(
+//                userId = 1,
+//                path = newToken
+//            )
+//            userViewModel.loadUserByTokenId(newToken.toString())
+//            Log.d("HomeFragment", "Generated new user_token: $newToken")
+//        }
 
-        if (prefs.contains("user_token")) {
-            // Preference exists
-            val value = prefs.getString("user_token", null)
-            Log.d("HomeFragment", "user_token: $value")
-            userViewModel.updateUserToken(
-                userId = 1,
-                path = value.toString()
-            )
-            userViewModel.loadUserByTokenId(value.toString())
-        } else {
-            // Preference does not exist
-            Log.d("HomeFragment", "Preference not found")
-
-            val newToken = java.util.UUID.randomUUID().toString()
-            prefs.edit() {
-                putString("user_token", newToken)
-            } // saves asynchronously
-
-            userViewModel.updateUserToken(
-                userId = 1,
-                path = newToken
-            )
-            userViewModel.loadUserByTokenId(newToken.toString())
-            Log.d("HomeFragment", "Generated new user_token: $newToken")
-        }
+        val intent = Intent(this, RegisterActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
