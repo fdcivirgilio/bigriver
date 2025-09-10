@@ -36,7 +36,7 @@ class UserAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = users[position]
-        holder.tvUsername.text = "name: ${user.name} / id: ${user.id} / token: ${user.userToken}"
+        holder.tvUsername.text = "name: ${user.name} / id: ${user.id} / token: ${user.userToken} / emailAdress: ${user.emailAddress}"
 //        holder.ivProfile.text = user.userImageURL.toString()
         holder.tvTime.text = "image URL(temp): ${user.userImageURL}"
         holder.itemView.setOnClickListener {

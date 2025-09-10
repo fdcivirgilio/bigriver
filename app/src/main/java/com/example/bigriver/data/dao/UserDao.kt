@@ -36,7 +36,7 @@ interface UserDao {
         suspend fun getUserByCredentials(emailAddress: String, password: String): User?
 
         // Get current user by token
-        @Query("SELECT * FROM user_table WHERE id = :userToken LIMIT 1")
+        @Query("SELECT * FROM user_table WHERE userToken = :userToken LIMIT 1")
         suspend fun getCurrentByToken(userToken: String): User?
 
         // Delete all users

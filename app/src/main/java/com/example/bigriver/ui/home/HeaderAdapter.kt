@@ -1,6 +1,7 @@
 package com.example.bigriver.ui.home
 
 import android.graphics.Paint
+import android.media.Image
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bigriver.R
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
+import com.bumptech.glide.Glide
 import com.example.bigriver.data.entity.User
 
 class HeaderAdapter(
@@ -26,6 +28,7 @@ class HeaderAdapter(
     inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val etMessage: EditText = view.findViewById(R.id.et_message)
         val btnPostNow: Button = view.findViewById(R.id.btn_post_now)
+        val ivProfile: ImageView = view.findViewById(R.id.ivProfile)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeaderViewHolder {
@@ -37,6 +40,9 @@ class HeaderAdapter(
     override fun onBindViewHolder(holder: HeaderViewHolder, position: Int) {
 
         val userImageURL = user.value?.userImageURL
+        Glide.with(holder.itemView.context)
+            .load(userImageURL)   // replace with your image URL or file path
+            .into(holder.ivProfile)
         Log.d("HeaderAdapter", "user image: $userImageURL")
 
         holder.btnPostNow.setOnClickListener {

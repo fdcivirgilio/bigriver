@@ -2,6 +2,7 @@ package com.example.bigriver.ui.posts
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -57,6 +58,14 @@ class PostsFragment : Fragment() {
             showCustomDialogPostSingle(clickedPost.content, clickedPost.date.toString(), name, postId)
         }
 
+        val prefs = requireContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+        var userToken = ""
+        if (prefs.contains("user_token")) {
+            // Preference exists
+            userToken = prefs.getString("user_token", null).toString()
+        }
+
+        userViewModel.loadUserByTokenId(userToken)
         val currentUser = userViewModel.currentUser
         val headerAdapter = HeaderAdapter(
             this,

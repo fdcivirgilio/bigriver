@@ -66,6 +66,13 @@ class MainActivity : AppCompatActivity() {
             val value = prefs.getString("user_token", null)
             Log.d("HomeFragment", "user_token: $value")
             userViewModel.loadUserByTokenId(value.toString())
+            userViewModel.currentUser.observe(this) { user ->
+                Log.d("HomeFragment", "user?.id: ${user?.id}")
+                if (user == null) {
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                }
+            }
         } else {
             // Preference does not exist
             Log.d("HomeFragment", "Preference not found")

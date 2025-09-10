@@ -19,6 +19,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.bigriver.MainActivity
 import com.example.bigriver.R
+import com.example.bigriver.activities.LoginActivity
 import com.example.bigriver.activities.RegisterActivity
 import com.example.bigriver.databinding.FragmentSettingsBinding
 import com.example.bigriver.databinding.FragmentUsersBinding
@@ -68,15 +69,25 @@ class SettingsFragment : Fragment() {
                     // Save it to internal storage
                     val savedPath = saveImageToInternalStorage(uri)
                     var userId = 0
-                    userViewModel.currentUser.observe(viewLifecycleOwner) { user ->
-                        userId = user?.id ?: 0
-                    }
-                    val userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-                    userViewModel.updateUserImage(userId, savedPath.toString())
-                    Toast.makeText(requireContext(), "Image saved at: $savedPath", Toast.LENGTH_LONG).show()
+                    Log.d("SettingsFragment", "btnSaveSelectedImage?.setOnClickListener is clicked")
+                    val prefs = requireContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
 
-                    btnSaveSelectedImage.visibility = View.GONE
-                    btnUploadImage?.visibility = View.VISIBLE
+                    if (prefs.contains("user_token")) {
+                        // Preference exists
+                        val value = prefs.getString("user_token", null)
+                        Log.d("HomeFragment", "user_token: $value")
+                        userViewModel.loadUserByTokenId(value.toString())
+                        userViewModel.currentUser.observe(viewLifecycleOwner) { user ->
+                            Log.d("SettingsFragment", "userViewModel.currentUser.observe(viewLifecycleOwner) is loaded")
+                            userId = user?.id ?: 0
+                            val userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+                            userViewModel.updateUserImage(userId, savedPath.toString())
+                            Toast.makeText(requireContext(), "Image saved at: $savedPath", Toast.LENGTH_LONG).show()
+
+                            btnSaveSelectedImage.visibility = View.GONE
+                            btnUploadImage?.visibility = View.VISIBLE
+                        }
+                    }
                 }
 
 
