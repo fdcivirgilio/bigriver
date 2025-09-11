@@ -46,8 +46,7 @@ on:
 
 jobs:
   test-trigger:
-    # Job runs only if the comment contains "/mandatoryTest"
-    if: github.event_name == 'issue_comment' && contains(github.event.comment.body, '/mandatoryTest')
+
     runs-on: ubuntu-latest
     steps:
       - name: Debug trigger
