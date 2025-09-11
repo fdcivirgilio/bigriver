@@ -11,6 +11,38 @@ on:
     types: [ created ]
   pull_request:
     types: [ ready_for_review ]
+  workflow_dispatch:
+    inputs:
+
+      target-branch:
+        description: 'your target branch'
+        type: string
+        required: true
+        default: 'master'
+
+      flavor:
+        description: 'flavor or environment'
+        required: true
+        type: choice
+        options:
+          - Stg
+          - Dev
+          - Tb
+          - Ds1
+          - Ds2
+          - Ds3
+          - Ds4
+          - Dev1
+          - Dev2
+          - Dev3
+          - Ds1_1
+          - Ds1_2
+          - Ds2_1
+          - Ds2_2
+          - Ds3_1
+          - Ds3_2
+          - Ds4_1
+          - Ds4_2
 
 jobs:
   test-trigger:
